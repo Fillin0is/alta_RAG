@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual env
+venv/
+.env
+
+# Data and indexes
+*.docx
+documents/
+models/
+
+# System files
+.DS_Store
