@@ -26,6 +26,9 @@ class LLMConnector:
         Ответ:
         '''
 
+        print(context)
+        print(prompt)
+
         try:
             response = self.llm.create_chat_completion(
                 messages=[

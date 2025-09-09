@@ -12,6 +12,7 @@ venv/
 *.docx
 documents/
 models/
+obsidian_vault/
 
 # System files
 .DS_Store

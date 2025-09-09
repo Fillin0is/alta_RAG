@@ -1,8 +1,7 @@
 import streamlit as st
 from llm_connector import LLMConnector
 from vector_store_pg import VectorStore
-from document_processor import process_folder
-from config import DATA_DIR, MODEL_DIR, DB_PARAMS
+from config import EMBEDDING_PATH, DB_PARAMS
 from pathlib import Path
 import os
 
@@ -11,33 +10,14 @@ import os
 def initialize_system():
     """Инициализация всех компонентов с проверками"""
 
-    # Проверка папки с документами
-    if not Path(DATA_DIR).exists():
-        os.makedirs(DATA_DIR)
-        st.error(f"Создана папка {DATA_DIR}. Добавьте DOCX-файлы и перезапустите приложение!")
-        st.stop()
-
-    if not list(Path(DATA_DIR).glob("*.docx")):
-        st.error(f"В папке {DATA_DIR} нет DOCX-файлов!")
-        st.stop()
-
     # Проверка модели эмбеддингов
-    if not Path(MODEL_DIR).exists():
-        st.error(f"Модель эмбеддингов не найдена в {MODEL_DIR}!")
+    if not Path(EMBEDDING_PATH).exists():
+        st.error(f"Модель эмбеддингов не найдена в {EMBEDDING_PATH}!")
         st.stop()
-
-    # Загрузка документов
-    with st.spinner("Обработка документов..."):
-        texts = process_folder(DATA_DIR)
-        if not texts:
-            st.error("Не удалось извлечь текст из документов!")
-            st.stop()
 
     # Инициализация векторного хранилища (Postgres + pgvector)
     with st.spinner("Инициализация поисковой системы..."):
-        vs = VectorStore(MODEL_DIR, DB_PARAMS)
-        vs.create_index(texts)
-        db = vs
+        db = VectorStore(EMBEDDING_PATH, DB_PARAMS)
 
     # Инициализация языковой модели
     with st.spinner("Загрузка языковой модели..."):
@@ -49,7 +29,7 @@ def initialize_system():
 def chat_interface(llm, db):
     """Основной интерфейс чата"""
     st.title("🤖 Локальный RAG-чат")
-    st.caption(f"Документы из: {DATA_DIR} | Модель: Mistral 7B")
+    st.caption(f"Модель: Mistral 7B")
 
     if "messages" not in st.session_state:
         st.session_state.messages = []
@@ -106,4 +86,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

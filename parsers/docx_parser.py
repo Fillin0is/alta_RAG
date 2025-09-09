@@ -2,7 +2,7 @@ from docx import Document
 from pathlib import Path
 
 
-def chunk_text(text: str, chunk_size: int = 700, overlap: int = 100):
+def chunk_text(text: str, chunk_size: int = 700, overlap: int = 200):
     """
     Разбиваем длинный текст на мелкие куски фиксированной длины.
     overlap = перекрытие, чтобы не терялся смысл между чанками.
@@ -28,7 +28,7 @@ def process_docx(file_path: Path):
         if chunk.strip()
     ]
 
-def process_folder(folder_path: str):
+def process_docx_folder(folder_path: str):
     """Обрабатываем папку с файлами DOCX"""
     folder = Path(folder_path)
     texts = []

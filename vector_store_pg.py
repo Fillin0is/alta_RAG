@@ -8,7 +8,7 @@ import hashlib
 
 
 class VectorStore:
-    def __init__(self, model_path: str, db_params: Dict):
+    def __init__(self, embed_path: str, db_params: Dict):
         """
         db_params = {
             "dbname": "...",
@@ -18,14 +18,14 @@ class VectorStore:
             "port": 5432
         }
         """
-        self.model = SentenceTransformer(model_path, device="cpu")
+        self.model = SentenceTransformer(embed_path, device="cpu")
         self.conn = psycopg2.connect(**db_params)
         register_vector(self.conn)
 
         self._init_table()
         
 
-    def _init_table(self):
+    def _init_table(self):  
         """
         Создание таблицы для хранения данных при ее отсутствии
         """
