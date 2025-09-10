@@ -35,7 +35,7 @@ class VectorStore:
                 CREATE TABLE IF NOT EXISTS documents (
                     id SERIAL PRIMARY KEY NOT NULL,
                     content TEXT NOT NULL,
-                    embedding vector(384) NOT NULL,
+                    embedding vector(768) NOT NULL,
                     metadata JSONB NOT NULL,
                     content_hash TEXT UNIQUE,
                     uploaded_at TIMESTAMP
@@ -92,11 +92,18 @@ class VectorStore:
         with self.conn.cursor() as cursor:
             cursor.execute(
                 f"""
-                SELECT content, embedding <-> %s AS distance
+                SELECT content, metadata, embedding <-> %s AS distance
                 FROM documents
                 ORDER BY distance
                 LIMIT %s;
                 """, (Vector(query_embedding), k)
             )
             rows = cursor.fetchall()
-            return [{"page_content": row[0], "distance": row[1]} for row in rows]
+            return [
+                {
+                    "page_content": row[0], 
+                    "metadata": row[1],
+                    "distance": row[2]
+                } 
+                for row in rows
+            ]

@@ -4,7 +4,7 @@ from pathlib import Path
 # Paths
 MODEL_PATH = "models/Mistral-7B-Instruct-v0.3.Q5_K_S.gguf"
 DOCX_PATH = "data/documents"
-EMBEDDING_PATH = "models/all-MiniLM-L6-v2"  # Модель эмбеддингов
+EMBEDDING_PATH = "models/all-mpnet-base-v2"  # Модель эмбеддингов
 OBSIDIAN_PATH = "data/obsidian_vault"
 
 # Model parameters

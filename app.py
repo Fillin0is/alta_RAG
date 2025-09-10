@@ -56,7 +56,10 @@ def chat_interface(llm, db):
                 #     st.write(f"Источник {i}:")
                 #     st.code(d['page_content'][:1000])
 
-                context = "\n\n".join([f"📄 {d['page_content']}" for d in docs])
+                context = "\n\n".join([
+                    f'📄 [{d["metadata"]["type_document"].upper()} | {d["metadata"]["source"]}]\n{d["page_content"]}' 
+                    for d in docs
+                ])
                 
                 # Генерация ответа
                 message_placeholder = st.empty()

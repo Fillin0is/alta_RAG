@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 
 
 def chunk_text(text: str, chunk_size: int = 700, overlap: int = 200):
@@ -20,8 +21,19 @@ def process_md(file_path: Path):
     Извлекаем текст из Obsidian (markdown) файла и режем на чанки
     """
     text = file_path.read_text(encoding="utf-8")
+
+    text = re.sub(r'!\[.*?\]\(.*?\)', '', text)
+    text = text.replace('  ', '')
+    text = text.replace('--', '')
+
     return [
-        {"page_content": chunk, "metadata": {"source": str(file_path)}}
+        {
+            "page_content": chunk, 
+            "metadata": {
+                "source": str(file_path), 
+                "type_document": "md"
+            }
+        }
         for chunk in chunk_text(text)
         if chunk.strip()
     ]
