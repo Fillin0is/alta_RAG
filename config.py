@@ -3,9 +3,11 @@ from pathlib import Path
 
 # Paths
 MODEL_PATH = "models/Mistral-7B-Instruct-v0.3.Q5_K_S.gguf"
-DOCX_PATH = "data/documents"
-EMBEDDING_PATH = "models/all-mpnet-base-v2"  # Модель эмбеддингов
+DOCX_PATH = "data/docx_documents"
 OBSIDIAN_PATH = "data/obsidian_vault"
+PDF_PATH = "data/pdf_documents"
+EMBEDDING_PATH = "models/all-mpnet-base-v2"  # Модель эмбеддингов
+
 
 # Model parameters
 N_CTX = 8192

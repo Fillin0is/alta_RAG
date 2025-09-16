@@ -24,7 +24,7 @@ def process_docx(file_path: Path):
     full_text = "\n".join([para.text for para in doc.paragraphs if para.text.strip()])
     return [
         {
-            "page_content": chunk, 
+            "page_content": chunk,
             "metadata": {
                 "source": file_path.name,
                 "type_document": "docx"

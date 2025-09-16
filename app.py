@@ -49,7 +49,7 @@ def chat_interface(llm, db):
         with st.chat_message("assistant"):
             try:
                 # Поиск контекста
-                docs = db.similarity_search(prompt, k=3)
+                docs = db.hybrid_search(prompt)
 
                 # st.subheader("🔎 Извлечённый контекст из FAISS:")
                 # for i, d in enumerate(docs, 1):

@@ -9,10 +9,10 @@ venv/
 .env
 
 # Data and indexes
-*.docx
-documents/
-models/
+docx_documents/
 obsidian_vault/
+pdf_documents/
+models/
 
 # System files
 .DS_Store
