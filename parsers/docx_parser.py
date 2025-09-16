@@ -17,9 +17,7 @@ def chunk_text(text: str, chunk_size: int = 700, overlap: int = 200):
     return chunks
 
 def process_docx(file_path: Path):
-    """
-    Извлекает текст из файлов и режет на чанки
-    """
+    """Извлекает текст из файлов и режет на чанки"""
     doc = Document(file_path)
     full_text = "\n".join([para.text for para in doc.paragraphs if para.text.strip()])
     return [

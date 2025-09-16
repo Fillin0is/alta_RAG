@@ -4,6 +4,7 @@ from pgvector.vector import Vector
 from psycopg2.extras import Json
 from sentence_transformers import SentenceTransformer
 from typing import List, Dict
+from tqdm import tqdm
 import hashlib
 
 
@@ -59,7 +60,7 @@ class VectorStore:
             raise ValueError("Не переданы тексты для индексации")
         
         with self.conn.cursor() as cursor:
-            for text in texts:
+            for text in tqdm(texts, desc="Индексация документов"):
                 content = text["page_content"]
                 content_hash = self._hash_content(content)
 
