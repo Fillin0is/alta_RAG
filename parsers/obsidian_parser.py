@@ -16,32 +16,32 @@ def chunk_text(text: str, chunk_size: int = 700, overlap: int = 200):
         start += chunk_size - overlap
     return [c for c in chunks if c]
 
-def process_md(file_path: Path):
+def process_md(file: object, folder_path: Path):
     """
     Извлекаем текст из Obsidian (markdown) файла и режем на чанки
     """
-    text = file_path.read_text(encoding="utf-8")
+    text = file.read_text(encoding="utf-8")
 
     text = re.sub(r'!\[.*?\]\(.*?\)', '', text)
     text = text.replace('  ', '')
     text = text.replace('--', '')
 
-    return [
+    return ([
         {
             "page_content": chunk, 
             "metadata": {
-                "source": str(file_path), 
+                "source": str(file), 
                 "type_document": "md"
             }
         }
         for chunk in chunk_text(text)
         if chunk.strip()
-    ]
+    ], str(file))
 
 def process_obsidian_folder(folder_path: str):
     """Обрабатываем папку с Obsidian файлами"""
     folder = Path(folder_path)
     texts = []
     for file in folder.rglob("*.md"):
-        texts.extend(process_md(file))
+        texts.append(process_md(file, folder_path))
     return texts

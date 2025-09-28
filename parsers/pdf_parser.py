@@ -16,20 +16,20 @@ def chunk_text(text: str, chunk_size: int = 700, overlap: int = 200):
     return chunks
     
 
-def process_pdf(file_path):
+def process_pdf(file_object: object, folder_path: Path):
     """Извлекает текст из файлов и режет на чанки"""
-    file = PdfReader(file_path)
+    file = PdfReader(file_object)
     full_text = "\n".join([page.extract_text() or "" for page in file.pages])
-    return [
+    return ([
         {
             "page_content": chunk,
             "metadata": {
-                "source": file_path.name,
+                "source": file_object.name,
                 "type_document": "pdf"
             },
         }
         for chunk in chunk_text(full_text) if chunk.strip()
-    ]
+    ], f'{folder_path}/{file_object.name}')
     
 
 def process_pdf_folder(folder_path: str):
@@ -37,5 +37,5 @@ def process_pdf_folder(folder_path: str):
     folder = Path(folder_path)
     texts = []
     for file in folder.glob("*.pdf"):
-        texts.extend(process_pdf(file))
+        texts.append(process_pdf(file, folder_path))
     return texts

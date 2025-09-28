@@ -5,23 +5,30 @@ from parsers.obsidian_parser import process_obsidian_folder
 from parsers.pdf_parser import process_pdf_folder
 
 
-def main():
+def main() -> None:
     store = VectorStore(embed_path=EMBEDDING_PATH, db_params=DB_PARAMS)
 
-    texts = []
-    docx_chunks = process_docx_folder(DOCX_PATH)
-    obsidian_chunks = process_obsidian_folder(OBSIDIAN_PATH)
-    pdf_chunks = process_pdf_folder(PDF_PATH)
+    documents = []
+    """
+    Обработанные документы в формате
+    [([{'page_content': 'text_chunk', 'metadata': {'source': 'file_name', 'type_document': '...'}}, ...], relative_file_path), ...]
+    """
+    docx_processed_files = process_docx_folder(DOCX_PATH)
+    obsidian_processed_files = process_obsidian_folder(OBSIDIAN_PATH)
+    pdf_processed_files = process_pdf_folder(PDF_PATH)
 
-    print(f"Индексировано {len(docx_chunks)} чанков формата .docx")
-    print(f"Индексировано {len(obsidian_chunks)} чанков формата .md")
-    print(f"ИНдексировано {len(pdf_chunks)} чанков формата .pdf")
+    print(f"Индексировано {sum([len(file[0]) for file in docx_processed_files])} чанков формата .docx")
+    print(f"Индексировано {sum([len(file[0]) for file in obsidian_processed_files])} чанков формата .md")
+    print(f"ИНдексировано {sum([len(file[0]) for file in pdf_processed_files])} чанков формата .pdf")
 
-    texts.extend(docx_chunks)
-    texts.extend(obsidian_chunks)
-    texts.extend(pdf_chunks)
+    documents.extend(docx_processed_files)
+    documents.extend(obsidian_processed_files)
+    documents.extend(pdf_processed_files)
 
-    store.create_index(texts)
+    for document in documents:
+        store.create_index(document[0], document[1])
+
+    print("-- Индексация документов окончена --")
 
 
 if __name__ == "__main__":
