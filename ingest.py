@@ -19,7 +19,7 @@ def main() -> None:
 
     print(f"Индексировано {sum([len(file[0]) for file in docx_processed_files])} чанков формата .docx")
     print(f"Индексировано {sum([len(file[0]) for file in obsidian_processed_files])} чанков формата .md")
-    print(f"ИНдексировано {sum([len(file[0]) for file in pdf_processed_files])} чанков формата .pdf")
+    print(f"Индексировано {sum([len(file[0]) for file in pdf_processed_files])} чанков формата .pdf")
 
     documents.extend(docx_processed_files)
     documents.extend(obsidian_processed_files)

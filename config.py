@@ -8,11 +8,10 @@ OBSIDIAN_PATH = "data/obsidian_vault"
 PDF_PATH = "data/pdf_documents"
 EMBEDDING_PATH = "models/all-mpnet-base-v2"  # Модель эмбеддингов
 
-
 # Model parameters
 N_CTX = 8192
-N_TREADS = 6
-N_GPU_LAYERS = 35
+N_TREADS = 20
+N_GPU_LAYERS = 16
 
 # Document parameters
 CHUNK_SIZE = 512

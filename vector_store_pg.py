@@ -112,13 +112,16 @@ class VectorStore:
             for text in tqdm(texts, desc=f"Индексация {file_path}"):
                 content = text["page_content"]
                 embedding = self.model.encode(content).tolist()
-                cursor.execute(
-                    """
-                    INSERT INTO documents (id_file, content, embedding, metadata)
-                    VALUES (%s, %s, %s, %s);
-                    """,
-                    (file_id, content, Vector(embedding), Json(text["metadata"]))
-                )
+                try:
+                    cursor.execute(
+                        """
+                        INSERT INTO documents (id_file, content, embedding, metadata)
+                        VALUES (%s, %s, %s, %s);
+                        """,
+                        (file_id, content, Vector(embedding), Json(text["metadata"]))
+                    )
+                except Exception as e:
+                    print(e)
 
         self.conn.commit()
 
