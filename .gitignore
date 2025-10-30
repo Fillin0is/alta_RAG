@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual env
+venv/
+.env
+/config.py
+
+# Data and indexes
+docx_documents/
+obsidian_vault/
+pdf_documents/
+models/
+
+# System files
+.DS_Store
