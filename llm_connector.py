@@ -1,11 +1,11 @@
 from openai import OpenAI
 import time
-from config import API_KEY, BASE_URL, CHAT_MODEL, EMBED_MODEL
+from config import API_KEY, BASE_URL, params_config
 
 class LLMConnector:
     def __init__(self):
         self.client = OpenAI(api_key=API_KEY, base_url=BASE_URL)
-        self.model = CHAT_MODEL
+        self.model = params_config.chats.gpt5
 
     def generate_response(self, query, context):
         """
@@ -63,7 +63,7 @@ class EmbedConnector:
     """
     def __init__(self):
         self.client = OpenAI(api_key=API_KEY, base_url=BASE_URL)
-        self.model = EMBED_MODEL
+        self.model = params_config.embedders.embedding_3_small
 
     def embed_text(self, text: str):
         res = self.client.embeddings.create(

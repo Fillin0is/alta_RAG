@@ -1,4 +1,4 @@
-from config import DB_PARAMS, DOCX_PATH, OBSIDIAN_PATH, EMBEDDING_PATH, PDF_PATH
+from config import DB_PARAMS, DOCX_PATH, OBSIDIAN_PATH, params_config, PDF_PATH
 from vector_store_pg import VectorStore
 from parsers.docx_parser import process_docx_folder
 from parsers.obsidian_parser import process_obsidian_folder
@@ -6,7 +6,7 @@ from parsers.pdf_parser import process_pdf_folder
 
 
 def main() -> None:
-    store = VectorStore(embed_path=EMBEDDING_PATH, db_params=DB_PARAMS)
+    store = VectorStore(embed_path=params_config.embedders.embedding_3_small, db_params=DB_PARAMS)
 
     documents = []
     """

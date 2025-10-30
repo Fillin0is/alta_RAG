@@ -2,12 +2,12 @@ import streamlit as st
 from llm_connector import LLMConnector, EmbedConnector
 from vector_store_pg import VectorStore
 from retriever import AnswerSearch
-from config import EMBEDDING_PATH, DB_PARAMS
+from config import DB_PARAMS, params_config
 
 
 def initialize_system():
     with st.spinner("Инициализация компонентов..."):
-        db = VectorStore(EMBEDDING_PATH, DB_PARAMS)
+        db = VectorStore(params_config.embedders.embedding_3_small, DB_PARAMS)
         llm = LLMConnector()
         embedder = EmbedConnector()
         retriever = AnswerSearch(db.conn, embedder)

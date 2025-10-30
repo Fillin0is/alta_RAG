@@ -2,7 +2,6 @@ import psycopg2
 from pgvector.psycopg2 import register_vector
 from pgvector.vector import Vector
 from psycopg2.extras import Json
-from sentence_transformers import SentenceTransformer
 from llm_connector import EmbedConnector
 from typing import List, Dict
 from tqdm import tqdm
