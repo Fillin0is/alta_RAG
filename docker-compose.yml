@@ -9,9 +9,10 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
-      - "5432:5432"
+      - "5434:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
@@ -22,7 +23,7 @@ services:
     build: .
     container_name: rag-app
     ports:
-      - "8501:8501"
+      - "8502:8501"  # Changed to 8502 to avoid conflict with running Streamlit
     depends_on:
       postgres:
         condition: service_healthy
@@ -32,6 +33,8 @@ services:
       - DB_NAME=rag_system
       - DB_USER=postgres
       - DB_PASSWORD=postgres
+    volumes:
+      - ./data:/app/data  # Mount data directory for documents
 
 volumes:
   postgres_data:

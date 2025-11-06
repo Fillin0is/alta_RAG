@@ -8,6 +8,7 @@ __pycache__/
 venv/
 .env
 /config.py
+/test.py
 
 # Data and indexes
 docx_documents/

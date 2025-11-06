@@ -11,6 +11,6 @@
 git clone https://github.com/<ТВОЙ_НИК>/<РЕПО>
 cd <РЕПО>
 python -m venv venv
-source venv/bin/activate  # или venv\Scripts\activate на Windows
+source venv/bin/activate
 pip install -r requirements.txt
 streamlit run app.py
