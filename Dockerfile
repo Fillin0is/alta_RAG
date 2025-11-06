@@ -30,4 +30,4 @@ ENV STREAMLIT_SERVER_PORT=8501
 # ENV CHAT_MODEL=gpt-4o-mini
 
 # Команда запуска
-CMD ["streamlit", "run", "app/main.py", "--server.port=8501", "--server.address=0.0.0.0"]
+CMD ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]

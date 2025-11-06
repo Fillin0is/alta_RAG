@@ -4,7 +4,6 @@ from pgvector.vector import Vector
 from psycopg2.extras import Json
 from llm_connector import EmbedConnector
 from typing import List, Dict
-from tqdm import tqdm
 import hashlib
 
 
