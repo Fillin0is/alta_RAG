@@ -7,13 +7,22 @@ __pycache__/
 # Virtual env
 venv/
 .env
-/config.py
+.env.local
+.env.production
 
 # Data and indexes
-docx_documents/
-obsidian_vault/
-pdf_documents/
+data/docx_documents/
+data/obsidian_vault/
+data/pdf_documents/
+info/
 models/
+
+# Database backups
+backups/*.sql
+backups/*.sql.gz
 
 # System files
 .DS_Store
+
+# Docker
+.dockerignore

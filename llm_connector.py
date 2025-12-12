@@ -1,5 +1,5 @@
 from llama_cpp import Llama
-from config import MODEL_PATH, N_CTX, N_TREADS, N_GPU_LAYERS
+from config import MODEL_PATH, N_CTX, N_THREADS, N_GPU_LAYERS
 
 
 class LLMConnector:
@@ -7,7 +7,7 @@ class LLMConnector:
         self.llm = Llama(
             model_path=str(MODEL_PATH),
             n_ctx=N_CTX,
-            n_threads=N_TREADS,
+            n_threads=N_THREADS,
             n_gpu_layers=N_GPU_LAYERS,
             verbose=False,
         )

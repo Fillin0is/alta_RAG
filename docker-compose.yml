@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: ankane/pgvector:latest
+    container_name: rag_postgres
+    environment:
+      POSTGRES_DB: ${DB_NAME:-rag_system_local}
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backups:/backups
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  rag_app:
+    build: .
+    container_name: rag_app
+    environment:
+      - DB_NAME=${DB_NAME:-rag_system_local}
+      - DB_USER=${DB_USER:-postgres}
+      - DB_PASSWORD=${DB_PASSWORD:-postgres}
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - MODEL_PATH=${MODEL_PATH:-models/Mistral-7B-Instruct-v0.3.Q5_K_S.gguf}
+      - EMBEDDING_PATH=${EMBEDDING_PATH:-models/all-mpnet-base-v2}
+      - DOCX_PATH=${DOCX_PATH:-data/docx_documents}
+      - OBSIDIAN_PATH=${OBSIDIAN_PATH:-data/obsidian_vault}
+      - PDF_PATH=${PDF_PATH:-data/pdf_documents}
+      - N_CTX=${N_CTX:-4096}
+      - N_THREADS=${N_THREADS:-10}
+      - N_BATCH=${N_BATCH:-512}
+      - N_GPU_LAYERS=${N_GPU_LAYERS:-0}
+      - CHUNK_SIZE=${CHUNK_SIZE:-512}
+      - CHUNK_OVERLAP=${CHUNK_OVERLAP:-50}
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
