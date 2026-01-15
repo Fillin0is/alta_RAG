@@ -12,7 +12,11 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 COPY requirements.txt .
 
-ENV CMAKE_ARGS="-DGGML_CUDA=on \
+ENV CMAKE_ARGS=" \
+-DGGML_CUDA=on \
+-DLLAMA_CUDA=on \
+-DLLAMA_BUILD_TOOLS=OFF \
+-DLLAMA_BUILD_TESTS=OFF \
 -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda \
 -DCUDA_CUDA_LIBRARY=/usr/local/cuda/lib64/stubs/libcuda.so"
 
