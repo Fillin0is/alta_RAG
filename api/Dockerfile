@@ -17,8 +17,13 @@ ENV FORCE_CMAKE=1
 
 RUN pip install torch --index-url https://download.pytorch.org/whl/cu121
 
+RUN ln -s /usr/local/cuda/lib64/stubs/libcuda.so /usr/local/cuda/lib64/stubs/libcuda.so.1
+
 RUN pip install --upgrade pip setuptools wheel && \
+    LD_LIBRARY_PATH=/usr/local/cuda/lib64/stubs:$LD_LIBRARY_PATH \
     pip install llama-cpp-python --no-cache-dir
+
+RUN rm /usr/local/cuda/lib64/stubs/libcuda.so.1
 
 RUN pip install --no-cache-dir -r requirements.txt
 
