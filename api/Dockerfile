@@ -12,16 +12,9 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 COPY requirements.txt .
 
-ENV CMAKE_ARGS=" \
--DGGML_CUDA=on \
--DLLAMA_CUDA=on \
--DLLAMA_BUILD_TOOLS=OFF \
--DLLAMA_BUILD_TESTS=OFF \
--DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda \
--DCUDA_CUDA_LIBRARY=/usr/local/cuda/lib64/stubs/libcuda.so"
-
-ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64/stubs:$LD_LIBRARY_PATH
+ENV CMAKE_ARGS="-DGGML_CUDA=on -DCMAKE_CUDA_ARCHITECTURES=native"
 ENV FORCE_CMAKE=1
+ENV CUDACXX=/usr/local/cuda/bin/nvcc
 
 RUN pip install torch --index-url https://download.pytorch.org/whl/cu121
 
