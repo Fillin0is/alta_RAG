@@ -12,9 +12,8 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 COPY requirements.txt .
 
-ENV CMAKE_ARGS="-DGGML_CUDA=on -DCMAKE_CUDA_ARCHITECTURES=native"
+ENV CMAKE_ARGS="-DGGML_CUDA=on -DCMAKE_CUDA_ARCHITECTURES=80"
 ENV FORCE_CMAKE=1
-ENV CUDACXX=/usr/local/cuda/bin/nvcc
 
 RUN pip install torch --index-url https://download.pytorch.org/whl/cu121
 
