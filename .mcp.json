@@ -1,0 +1,17 @@
+{
+    "mcpServers": {
+        "context7": {
+            "type": "stdio",
+            "command": "npx",
+            "args": ["-y", "@upstash/context7-mcp", "--api-key", "ctx7sk-39c113ba-35fb-4d38-871d-b52a7c8f2f0d"]
+        },
+        "postgres": {
+            "type": "stdio",
+            "command": "npx",
+            "args": ["-y", "@modelcontextprotocol/server-postgres"],
+            "env": {
+                "POSTGRES_URL": "${POSTGRES_URL}"
+            }
+        }
+    }
+}

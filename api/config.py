@@ -1,16 +1,15 @@
 from pathlib import Path
 import os
-from dotenv import load_dotenv
 
-# Load environment variables from .env file
-load_dotenv()
 
-# Paths
-MODEL_PATH = os.getenv("MODEL_PATH", "models/Mistral-7B-Instruct-v0.3.Q5_K_S.gguf")
-DOCX_PATH = os.getenv("DOCX_PATH", "data/docx_documents")
-OBSIDIAN_PATH = os.getenv("OBSIDIAN_PATH", "data/obsidian_vault")
-PDF_PATH = os.getenv("PDF_PATH", "data/pdf_documents")
-EMBEDDING_PATH = os.getenv("EMBEDDING_PATH", "models/all-mpnet-base-v2")
+PROJECT_ROOT = Path(__file__).parent.parent
+
+EMBED_MODEL_PATH = os.getenv("EMBED_MODEL_PATH", str(PROJECT_ROOT / "models/multilingual-e5-base"))
+LLM_MODEL_PATH = os.getenv("LLM_MODEL_PATH", str(PROJECT_ROOT / "models/Mistral-7B-Instruct-v0.3.Q8_0.gguf"))
+
+DOCX_PATH = str(PROJECT_ROOT / "data/docx_documents")
+OBSIDIAN_PATH = str(PROJECT_ROOT / "data/obsidian_vault")
+PDF_PATH = str(PROJECT_ROOT / "data/pdf_documents")
 
 # Model parameters
 N_CTX = int(os.getenv("N_CTX", "4096"))

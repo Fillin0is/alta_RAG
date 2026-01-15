@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: ankane/pgvector:latest
+    container_name: postgres
+    environment:
+      POSTGRES_DB: rag_system_local
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - rag_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  api:
+    build: ../api
+    container_name: api
+    command: sh -c "python ingest.py && uvicorn main:app --host 0.0.0.0 --port 8000"
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: rag_system_local
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      EMBED_MODEL_PATH: /app/models/multilingual-e5-base
+      LLM_MODEL_PATH: /app/models/Mistral-7B-Instruct-v0.3.Q8_0.gguf
+      N_GPU_LAYERS: 35
+    ports:
+     - "8000:8000"
+    volumes:
+     - ../models:/app/models
+    networks:
+      - rag_net
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build: ../frontend
+    container_name: frontend
+    ports: 
+      - "8501:8501"
+    networks:
+      - rag_net
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  rag_net:
+    driver: bridge

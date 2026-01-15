@@ -3,8 +3,10 @@ from pgvector.psycopg2 import register_vector
 from pgvector.vector import Vector
 from psycopg2.extras import Json
 from sentence_transformers import SentenceTransformer
-from typing import List, Dict
 from tqdm import tqdm
+import torch
+
+from typing import List, Dict
 import hashlib
 
 
@@ -19,7 +21,8 @@ class VectorStore:
             "port": 5432
         }
         """
-        self.model = SentenceTransformer(embed_path, device="cpu")
+        device = "cudа" if torch.cuda.is_available() else "cpu"
+        self.model = SentenceTransformer(embed_path, device=device)
         self.conn = psycopg2.connect(**db_params)
         register_vector(self.conn)
 
@@ -33,16 +36,18 @@ class VectorStore:
         with self.conn.cursor() as cursor:
             cursor.execute(
                 """
+                CREATE EXTENSION IF NOT EXISTS vector;
+
                 CREATE TABLE IF NOT EXISTS files (
                     id BIGSERIAL PRIMARY KEY,
-                    source TEXT UNIQUE NOT NULL,       -- путь или имя файла
-                    file_hash TEXT NOT NULL,           -- sha256 файла
+                    source TEXT UNIQUE NOT NULL,
+                    file_hash TEXT NOT NULL,
                     processed_at TIMESTAMP NOT NULL DEFAULT NOW()
                 );
 
                 CREATE TABLE IF NOT EXISTS documents (
                     id BIGSERIAL PRIMARY KEY,
-                    id_file BIGINT NOT NULL REFERENCES files(id) ON DELETE CASCADE, -- связь с файлом
+                    id_file BIGINT NOT NULL REFERENCES files(id) ON DELETE CASCADE,
                     content TEXT NOT NULL,
                     embedding vector(768) NOT NULL,
                     metadata JSONB NOT NULL

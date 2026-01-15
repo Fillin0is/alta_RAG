@@ -1,18 +1,19 @@
 from llama_cpp import Llama
-from config import MODEL_PATH, N_CTX, N_THREADS, N_GPU_LAYERS
+
+from config import LLM_MODEL_PATH, N_CTX, N_THREADS, N_GPU_LAYERS
 
 
 class LLMConnector:
     def __init__(self):
         self.llm = Llama(
-            model_path=str(MODEL_PATH),
+            model_path=str(LLM_MODEL_PATH),
             n_ctx=N_CTX,
             n_threads=N_THREADS,
             n_gpu_layers=N_GPU_LAYERS,
             verbose=False,
         )
 
-    def generate_response(self, prompt, context, max_tokens=512):
+    def generate_response(self, query, context, max_tokens=512):
         """Генерация ответа с использованием контекста"""
         augmented_prompt = f'''
         Ты - ассистент компании Альта-Софт, которая занимается разработкой программного обеспечения в сфере таможенного оборота и логистики. 
@@ -21,7 +22,7 @@ class LLMConnector:
 
         Контекст: {context}
 
-        Вопрос: {prompt}
+        Вопрос: {query}
 
         Ответ:
         '''
