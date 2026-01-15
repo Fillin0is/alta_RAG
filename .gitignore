@@ -17,6 +17,10 @@ data/pdf_documents/
 info/
 models/
 
+# CLAUDE
+CLAUDE.md
+.mcp.json
+
 # Database backups
 backups/*.sql
 backups/*.sql.gz
