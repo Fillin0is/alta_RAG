@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-PROJECT_DIR="$HOME/alta_rag"
+PROJECT_DIR="$HOME/rag_system"
 REPO_URL="https://github.com/Fillin0is/alta_RAG"
 
 cd "$PROJECT_DIR" || exit 1
