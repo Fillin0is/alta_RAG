@@ -17,8 +17,8 @@ pip install -r requirements.txt --quiet
 
 echo "=== Restarting Docker containers ==="
 cd compose
-docker-compose -f server.yml down
-docker-compose -f server.yml up -d
+docker compose -f server.yml down
+docker compose -f server.yml up -d
 
 echo "=== Done! ==="
-docker-compose -f server.yml ps
+docker compose -f server.yml ps
