@@ -23,14 +23,10 @@ services:
   api:
     build: ../api
     container_name: api
-    deploy:
-      resources:
-        reservations:
-          - driver: nvidia
-            count: 1
-            capabilities: [gpu]
+    runtime: nvidia
     command: sh -c "python ingest.py && uvicorn main:app --host 0.0.0.0 --port 8000"
     environment:
+      NVIDIA_VISIBLE_DEVICES: all
       DB_HOST: postgres
       DB_PORT: 5432
       DB_NAME: rag_system_local
