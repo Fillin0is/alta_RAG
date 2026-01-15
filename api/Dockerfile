@@ -12,8 +12,10 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 COPY requirements.txt .
 
-ENV CMAKE_ARGS="-DLLAMA_CUDA=on"
+ENV CMAKE_ARGS="-DGGML_CUDA=on"
 ENV FORCE_CMAKE=1
+
+RUN pip install torch --index-url https://download.pytorch.org/whl/cu121
 
 RUN pip install --upgrade pip setuptools wheel && \
     pip install llama-cpp-python --no-cache-dir
@@ -23,3 +25,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+

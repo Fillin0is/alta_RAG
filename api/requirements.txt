@@ -8,7 +8,6 @@ pgvector>=0.2.4
 # Embeddings
 sentence-transformers>=2.2.0
 huggingface_hub>=1.0.0
-torch>=2.0.0
 
 # Document parsers
 PyPDF2>=3.0.0
