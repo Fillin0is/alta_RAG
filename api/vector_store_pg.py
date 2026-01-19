@@ -21,7 +21,7 @@ class VectorStore:
             "port": 5432
         }
         """
-        device = "cudа" if torch.cuda.is_available() else "cpu"
+        device = "cuda" if torch.cuda.is_available() else "cpu"
         self.model = SentenceTransformer(embed_path, device=device)
         self.conn = psycopg2.connect(**db_params)
         register_vector(self.conn)
