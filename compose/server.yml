@@ -21,10 +21,11 @@ services:
       retries: 5
 
   api:
-    build: ../api
+    build:
+      context: ../api
+      dockerfile: Dockerfile
     container_name: api
-    runtime: nvidia
-    command: sh -c "python ingest.py && uvicorn main:app --host 0.0.0.0 --port 8000"
+    command: sh -c "python3 ingest.py && uvicorn main:app --host 0.0.0.0 --port 8000"
     environment:
       NVIDIA_VISIBLE_DEVICES: all
       DB_HOST: postgres
@@ -36,24 +37,51 @@ services:
       LLM_MODEL_PATH: /app/models/Mistral-7B-Instruct-v0.3.Q8_0.gguf
       N_GPU_LAYERS: 35
     ports:
-     - "8000:8000"
+      - "8000:8000"
     volumes:
-     - ../models:/app/models
+      - ../models:/app/models:ro
+      - ../docs:/app/docs:ro
     networks:
       - rag_net
+    restart: unless-stopped
     depends_on:
       postgres:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
 
   frontend:
-    build: ../frontend
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
     container_name: frontend
-    ports: 
+    environment:
+      API_URL: http://api:8000
+    ports:
       - "8501:8501"
     networks:
       - rag_net
+    restart: unless-stopped
     depends_on:
-      - api
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8501/_stcore/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
 
 volumes:
   postgres_data:
