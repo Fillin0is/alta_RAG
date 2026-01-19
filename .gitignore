@@ -27,6 +27,3 @@ backups/*.sql.gz
 
 # System files
 .DS_Store
-
-# Docker
-.dockerignore

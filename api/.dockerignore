@@ -1,0 +1,38 @@
+# Models - mounted as volumes, don't copy into image
+models/
+*.gguf
+*.bin
+*.safetensors
+
+# Documents - mounted as volumes
+docs/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+
+# Git
+.git/
+.gitignore
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Misc
+*.md
+*.log
+.env*
