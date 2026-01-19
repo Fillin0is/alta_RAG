@@ -15,8 +15,6 @@ RUN apt-get update && apt-get install -y \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-ENV PATH="/root/.cargo/bin:${PATH}"
 
 WORKDIR /app
 
@@ -33,6 +31,8 @@ RUN ln -s /usr/local/cuda/lib64/stubs/libcuda.so /usr/local/cuda/lib64/stubs/lib
     LD_LIBRARY_PATH=/usr/local/cuda/lib64/stubs:$LD_LIBRARY_PATH \
     pip install --no-cache-dir llama-cpp-python && \
     rm /usr/local/cuda/lib64/stubs/libcuda.so.1
+
+RUN pip install --no-cache-dir tokenizers transformers huggingface_hub sentence-transformers
 
 RUN pip install --no-cache-dir -r requirements.txt
 

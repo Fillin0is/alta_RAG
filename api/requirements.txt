@@ -6,7 +6,6 @@ psycopg2-binary>=2.9.9
 pgvector>=0.2.4
 
 # Embeddings
-sentence-transformers>=2.2.0
 huggingface_hub>=1.0.0
 
 # Document parsers
