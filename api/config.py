@@ -5,7 +5,7 @@ import os
 PROJECT_ROOT = Path(__file__).parent
 
 EMBED_MODEL_PATH = os.getenv("EMBED_MODEL_PATH", str(PROJECT_ROOT / "models/multilingual-e5-base"))
-LLM_MODEL_PATH = os.getenv("LLM_MODEL_PATH", str(PROJECT_ROOT / "models/Mistral-7B-Instruct-v0.3.Q8_0.gguf"))
+LLM_MODEL_PATH = os.getenv("LLM_MODEL_PATH", str(PROJECT_ROOT / "models/Mistral-7B-Instruct-v0.3.Q8_0.gguf/Mistral-7B-Instruct-v0.3.Q8_0.gguf"))
 
 DOCX_PATH = str(PROJECT_ROOT / "data/docx_documents")
 OBSIDIAN_PATH = str(PROJECT_ROOT / "data/obsidian_vault")

@@ -34,7 +34,7 @@ services:
       DB_USER: postgres
       DB_PASSWORD: postgres
       EMBED_MODEL_PATH: /app/models/multilingual-e5-base
-      LLM_MODEL_PATH: /app/models/Mistral-7B-Instruct-v0.3.Q8_0.gguf
+      LLM_MODEL_PATH: /app/models/Mistral-7B-Instruct-v0.3.Q8_0.gguf/Mistral-7B-Instruct-v0.3.Q8_0.gguf
       N_GPU_LAYERS: 35
     ports:
       - "8000:8000"
