@@ -10,6 +10,7 @@ llama-cpp-python>=0.2.50
 
 # Embeddings
 sentence-transformers>=2.2.0
+huggingface_hub>=0.34,<1.0
 torch>=2.0.0
 
 # Document parsers
