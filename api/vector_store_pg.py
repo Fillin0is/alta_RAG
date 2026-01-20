@@ -24,10 +24,8 @@ class VectorStore:
         device = "cuda" if torch.cuda.is_available() else "cpu"
         self.model = SentenceTransformer(embed_path, device=device)
         self.conn = psycopg2.connect(**db_params)
-        register_vector(self.conn)
-
         self._init_table()
-        
+        register_vector(self.conn)
 
     def _init_table(self):  
         """
