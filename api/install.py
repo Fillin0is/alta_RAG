@@ -20,7 +20,7 @@ def install_LLM_model():
         hf_hub_download(
             repo_id="MaziyarPanahi/Mistral-7B-Instruct-v0.3-GGUF",
             filename="Mistral-7B-Instruct-v0.3.Q8_0.gguf",
-            local_dir="./models"
+            local_dir=LLM_MODEL_PATH
         )
         print(f'Модель скачана в {str(LLM_MODEL_PATH)}')
     except Exception as e:
